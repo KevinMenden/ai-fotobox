@@ -38,11 +38,15 @@ class InvertedResidual(nn.Module):
 
         self.conv = nn.Sequential(
             nn.ReflectionPad2d(self.reflection_pad),
-            nn.Conv2d(channel_in, channel_out, kernel_size=kernel_size, stride=stride, groups=channel_in),
+            nn.Conv2d(channel_in, channel_out, kernel_size=1, stride=1),
             nn.InstanceNorm2d(channel_out, affine=True),
             nn.ReLU(),
             nn.ReflectionPad2d(self.reflection_pad),
-            nn.Conv2d(channel_out, channel_out, kernel_size=3, stride=1),
+            nn.Conv2d(channel_in, channel_out, kernel_size=kernel_size, stride=stride, groups=channel_in),
+            nn.InstanceNorm2d(channel_out, affine=True),
+            nn.ReLU(),
+            #nn.ReflectionPad2d(self.reflection_pad),
+            nn.Conv2d(channel_out, channel_out, kernel_size=1, stride=1),
             nn.InstanceNorm2d(channel_out, affine=True),
         )
 
